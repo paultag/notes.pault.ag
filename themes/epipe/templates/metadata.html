@@ -1,0 +1,9 @@
+{{ article.locale_date }}
+
+{% if article.author %}
+    by <a class="url fn" href="{{ SITEURL }}/{{ article.author.url }}">{{ article.author }}</a>
+{% endif %}
+
+{% if article.tags %}
+    with tags {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a> {% endfor %}
+{% endif %}

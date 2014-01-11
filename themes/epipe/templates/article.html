@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block author %}{{article.author}}{% endblock %}
+
+{% block content %}
+    <div class = 'title' >
+        <h1>{{ article.title }}</h1>
+        <h3>by</h3>
+        <h2>{{ article.author }}</h2>
+    </div>
+
+    <div class = 'content' >
+        {{ article.content }}
+    </div>
+    <div class="embellish"></div>
+{% endblock %}

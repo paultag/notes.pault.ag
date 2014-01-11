@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class = 'about' >
+        <p>
+            This is a collection of insane ideas that I've seen fit
+            to document in a mostly complete way. Most of these posts are
+            centered around Debian, GNU/Linux, or general life hacks.
+        </p>
+    </div>
+
+    {% if articles %}
+        {% for article in articles_page.object_list %}
+        <article>
+<h1><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h1>
+<p>{{article.summary}}</p>
+        </article>
+        <div class="embellish"></div>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

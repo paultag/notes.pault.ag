@@ -1,0 +1,66 @@
+<!--
+
+    Copyright (c) Paul R. Tagliamonte, 2013 under the terms and conditions
+    of the MIT/Expat license.
+
+    This blog is powered by http://getpelican.com/
+
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block windowtitle %}{{ SITENAME }}{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="author" content="{% block author %}{{ AUTHOR }}{% endblock %}">
+
+        {% if article %}
+        <!-- Twitter stuff -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="{{article.twittersite}}">
+        <meta name="twitter:creator" content="{{article.twittercreator}}">
+        <meta name="twitter:title" content="{{article.title}}">
+        <meta name="twitter:description" content="{{article.summary|e}}">
+        <meta name="twitter:image" content="{% if article.twitterimage %}{{article.twitterimage}}{% else %}{{ SITEURL }}/static/notes.png{% endif %}">
+        <!-- end twitter -->
+        {% endif %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="vcs-git" href="{{GITHUB_URL}}" title="blog repo" />
+        <link href="{{ SITEURL }}/theme/css/pygments.css" rel="stylesheet">
+        <link href="{{ SITEURL }}/theme/css/epipe.css" rel="stylesheet">
+        {% if ANALYTICS_SLUG %}
+        <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-9077139-11', 'pault.ag');
+ga('send', 'pageview');
+        </script>
+        {% endif %}
+    </head>
+    <body>
+        <div class='main'>
+            <div class = 'header' >
+                <h1><a href="{{ SITEURL }}">{{SITENAME}}</a></h1>
+                <h2>{{SITETAG}}</h2>
+            </div>
+
+{% block content %}{% endblock %}
+
+            <footer>
+                <div class = 'contact' >
+                    <ul>
+{% if SOCIAL %}
+    {% for name, link in SOCIAL %}
+                <li><a href="{{link}}" ><i class="icon-{{name}}"></i></a></li>
+    {% endfor %}
+{% endif %}
+                    </ul>
+                </div>
+            </footer>
+        </div>
+        <div class = 'pulldown' ></div>
+    </body>
+</html>
