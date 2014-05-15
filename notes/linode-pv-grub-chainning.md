@@ -11,14 +11,16 @@ TwitterImage: http://notes.pault.ag/static/debian.png
 I've been using [Linode](https://linode.com) since 2010, and many of
 my friends have heard me talk about how big a fan I am of linode. I've
 used Debian unstable on all my Linodes, since I often use them as a remote
-shell for general purpose Debian development.
+shell for general purpose Debian development. I've found my linodes to be
+indispensable, and I really love Linode.
 
 The Problem
 ===========
 
 Recently, because of my work on [Docker](http://docker.io/), I was forced
-to use the Debian kernel, since the stock Linode kernel has no aufs support,
-and the default LVM-based Devicemapper backend can be quite a pain.
+to stop using the Linode kernel in favor of the stock Debian kernel, since
+the stock Linode kernel has no aufs support, and the default LVM-based
+devicemapper backend can be quite a pain.
 
 <aside class="left">
     The btrfs errors are ones I fully expect to be gone soon, I can't wait
@@ -34,10 +36,10 @@ aufs internally, is quite stable with Docker (and in general).
 I started to run through the [Linode Library's guide on PV-Grub](https://library.linode.com/custom-instances/pv-grub-howto),
 but that resulted in a cryptic error with xen not understanding the compression
 of the kernel. I checked for recent changes to the compresson, and lo, the
-Kernel has been switched to use xz compression in sid. Awesome news, really.
-XZ compression is awesome, and I've been super impressed with how universally
-we've adopted it in Debian. Keep it up!  However, it appears only a newer
-pv-grub than Linode has installed will fix this.
+Debian kernel has been switched to use xz compression in sid. Awesome news,
+really. XZ compression is awesome, and I've been super impressed with how
+universally we've adopted it in Debian. Keep it up!  However, it appears only
+a newer pv-grub than the Linode hosts have installed will fix this.
 
 After contacting the (ever friendly) Linode support, they were unable to give
 me a timeline on adding xz support, which would entail upgrading pv-grub. It
@@ -103,6 +105,7 @@ in the `/boot/load.cf` file:
 Now, lastly, let's generate the `/boot/xen-shim` file that we need
 to boot to:
 
+    :::bash
     grub-mkimage --prefix '(xen/xvda)/boot/grub' -c /boot/load.cf -O x86_64-xen /usr/lib/grub/x86_64-xen/*.mod > /boot/xen-shim
 
 
