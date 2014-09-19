@@ -7,6 +7,7 @@ Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
 TwitterImage: http://notes.pault.ag/static/debian.png
+Status: draft
 
 Far too often people tend to be confused by the process and theory behind
 the act of daemonizing a service under Linux. This post will cover the basics
