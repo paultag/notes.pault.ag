@@ -7,7 +7,6 @@ Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
 TwitterImage: http://notes.pault.ag/static/docker.png
-Status: draft
 
 For the tl;dr: [Docker FDW](https://github.com/paultag/dockerfdw) is a thing.
 Star it, hack it, try it out. File bugs, be happy. If you want to see what it's
