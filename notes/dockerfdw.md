@@ -12,6 +12,11 @@ For the tl;dr: [Docker FDW](https://github.com/paultag/dockerfdw) is a thing.
 Star it, hack it, try it out. File bugs, be happy. If you want to see what it's
 like to read, there's some example SQL down below.
 
+<aside class="left">
+    This post was edited on Sep 21st to add information about the
+    <code>DELETE</code> and <code>INSERT</code> operators
+</aside>
+
 The question is first, what the heck is a PostgreSQL Foreign Data Wrapper?
 PostgreSQL Foreign Data Wrappers are plugins that allow C libraries
 to provide an adaptor for PostgreSQL to talk to an external database.
@@ -60,11 +65,9 @@ and suggested a [Docker](http://docker.io/) FDW did I get really excited.
 Cue a few hours of hacking, and I'm proud to say -- here's
 [Docker FDW](https://github.com/paultag/dockerfdw).
 
-Currently it only implements reading from the API, but extending this to allow
-for SQL `DELETE` operations isn't out of the question, and likely to be
-implemented soon. This lets us ask all sorts of really interesting
-questions out of the API, and might even help folks writing webapps
-avoid adding too much Docker-aware logic.
+This lets us ask all sorts of really interesting questions out of the API,
+and might even help folks writing webapps avoid adding too much Docker-aware
+logic. Abstractions can be fun!
 
 
 Setting it up
@@ -183,6 +186,49 @@ SELECT docker_containers.ip, docker_containers.names, docker_images.tags
              | {/foo}                      | {debian:unstable}
 (31 rows)
 ```
+
+OK, let's see if we can bring this to the next level now. I finally got around
+to implementing `INSERT` and `DELETE` operations, which turned out to be
+pretty simple to do. Check this out:
+
+```sql
+DELETE FROM docker_containers;
+```
+```
+DELETE 1
+```
+
+This will do a `stop` + `kill` after a 10 second hang behind the scenes. It's
+actually a lot of fun to spawn up a container and terminate it from
+`PostgreSQL`.
+
+```sql
+INSERT INTO docker_containers (name, image) VALUES ('hello', 'debian:unstable') RETURNING id;
+```
+
+```
+                                id                                
+------------------------------------------------------------------
+ 0a903dcf5ae10ee1923064e25ab0f46e0debd513f54860beb44b2a187643ff05
+
+INSERT 0 1
+(1 row)
+```
+
+Spawning containers works too - this is still very immature and not super
+practical, but I figure while I'm showing off, I might as well go all the way.
+
+```sql
+SELECT ip FROM docker_containers WHERE id='0a903dcf5ae10ee1923064e25ab0f46e0debd513f54860beb44b2a187643ff05';
+```
+
+```
+     ip      
+-------------
+ 172.17.0.12
+(1 row)
+```
+
 
 Success! This is just a taste of what's to come, so please feel free to hack on
 [Docker FDW](https://github.com/paultag/dockerfdw),
