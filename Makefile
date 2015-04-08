@@ -18,7 +18,7 @@ upload: prod-render static
 	cd output; \
 	rsync -vr --delete \
 		. \
-		tag@pault.ag:/srv/www/nginx/notes/
+		tag@pault.ag:/srv/www/sites/notes.pault.ag/
 
 
 .PHONY: render build all upload static
