@@ -1,4 +1,4 @@
-Title: It's all relative: how text can teach us how to handle datetimes
+Title: It's all relative
 Date: 2016-03-21 23:22
 Tags: datetime, timezones, unicode, python
 Category: rants
@@ -13,13 +13,7 @@ touted [nedbat's](http://nedbatchelder.com) talk
 [Pragmatic Unicode, or, How do I stop the pain?](http://nedbatchelder.com/text/unipain.html)
 as one of the most foundational talks, and required watching for all programmers.
 
-The reason is because netbat hits on something bigger - something more
-fundemental than how to handle Unicode -- it's how to handle data which is
-relative. 
-
-For those who want the TL;DR, the argument is as follows:
-
-Facts of Life:
+For those who want the TL;DR, the talk outlines the following Facts of Life:
 
  1. Computers work with Bytes. Bytes go in, Bytes go out.
  2. The world needs more than 256 symbols.
@@ -27,14 +21,14 @@ Facts of Life:
  4. You cannot infer the encoding of bytes.
  5. Declared encodings can be Wrong
 
-Now, to fix it, the following protips:
+Now, to deal with these facts, Ned gives the following protips:
 
  1. [Unicode sandwich](http://nedbatchelder.com/text/unipain/unipain.html#35)
  2. Know what you have
  3. TEST
 
-Relative Data
--------------
+Chaosmonkey
+-----------
 
 I've started to think more about why we do the things we do when we write
 code, and one thing that continues to be a source of morbid schadenfreude
@@ -76,12 +70,10 @@ programmer into a series of profanity laden tirades. Go find one in the wild,
 and ask them about what they think about timezone handling in their code.
 I'll wait. Go ahead.
 
-Rants are funny things. They're fun to watch. Hilarious to give. Sometimes
-just getting it all out can help. They can tell you a lot about the true
-nature of problems.
-
-It's funny to consider the isomorphic nature of Unicode rants and Timezone
-rants.
+Rants are funny things. They're fun to watch. Hilarious to give. Sometimes just
+getting it all out can help. They can tell you a lot about the true nature of
+problems. It's funny to consider the isomorphic nature of Unicode rants and
+Timezone rants.
 
 *I don't think this is an accident.*
 
@@ -106,15 +98,10 @@ with grace, and finally, as late as you can, turn it back into bytes
 
 Most of the time, you don't even have to encode it back to an unqualified
 datetime, since modern databases can store datetimes *with* their correct
-timezone, without having to turn it into a POSIX Datetime in UTC.
-
-Just like you can declare Unicode strings in your database, and let your
-database driver handle the encoding and decoding for you. Avoid losing this
-information at all costs. Remember, timezones *are* data! Most of the time,
-you want to know what time it was (local time!). If there's a hearing being
-held in person, I don't need to know that it's 5:00 AM Eastern, when I really
-need to know that it's at 9:00 AM GMT, so I can tell all my British friends to
-go and show up.
+timezone, without having to turn it into a POSIX Datetime in UTC, crudely
+shoved into an int field. Just because no one at your startup was born before
+UNIX Epoch doesn't mean they don't exist. Maybe that's why Facebook seemingly
+moved their birthday ints back to 1990 (judging by a bug I saw the other day).
 
 It's not until you want to show the datetime to the user again should you
 consider how to re-encode your datetime to bytes. You should think about
@@ -147,20 +134,27 @@ Pro Tip #3: TEST
 -----------------
 
 Just like Unicode, testing that your code works with datetimes is important.
-
 Every time I think about how to go about doing this, I think about that
 one time that [mjg59](http://mjg59.dreamwidth.org/) couldn't book a flight
 starting Tuesday from AKL, landing in HNL on Monday night, because
-United couldn't book the last leg to SFO.
+United couldn't book the last leg to SFO. Do you ever assume dates only go
+forward as time goes on? Remember timezones.
 
-Do you ever assume dates only go forward as time goes on? Remember timezones.
-
-Construct hilarious test data, make sure someone in New Zealand's
+Construct test data, make sure someone in New Zealand's
 [+13:45](https://en.wikipedia.org/wiki/UTC%2B13:45) can correctly talk with
 their friends in
 Baker Island's [-12:00](https://en.wikipedia.org/wiki/UTC%E2%88%9212:00),
 and that the events sort right.
 
+Just because it's Noon on New Years Eve in England doesn't mean it's not
+1 AM the next year in New Zealand. Places a few miles apart may go on Daylight
+savings different days. Indian Standard Time is not even aligned on the hour
+to GMT (`+05:30`)!
+
+Test early, and test often. Memorize a few timezones, and challanage
+your assumptions when writing code that has to do with time. Don't use
+wall clocks to mean monotonic time. Remember there's a whole world out there,
+and we only deal with part of it.
 
 Epilogue
 --------
