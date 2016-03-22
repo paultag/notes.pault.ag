@@ -5,7 +5,7 @@ AUTHOR = 'Paul Tagliamonte'
 SITENAME = "Ceci n'est pas une -EPIPE"
 SITETAG = "Life as a F/OSS Zealot, Debianite, Pythonista and Lisper"
 SITEURL = 'http://notes.pault.ag'
-SITEURL = 'file:///home/tag/dev/local/notes.pault.ag/output/'
+SITEURL = 'file:///home/paultag/dev/local/notes.pault.ag/output/'
 TIMEZONE = "America/New_York"
 THEME = "epipe"
 

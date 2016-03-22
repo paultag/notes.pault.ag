@@ -8,9 +8,6 @@ TwitterSite: @paultag
 TwitterCreator: @paultag
 TwitterImage: http://notes.pault.ag/static/time.png
 
-It's all relative: how text can teach us how to handle datetimes
-================================================================
-
 As nearly anyone who's worked with me will attest to, I've long since
 touted [nedbat's](http://nedbatchelder.com) talk
 [Pragmatic Unicode, or, How do I stop the pain?](http://nedbatchelder.com/text/unipain.html)
