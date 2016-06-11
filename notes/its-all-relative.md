@@ -14,7 +14,7 @@ touted [nedbat's](http://nedbatchelder.com) talk
 as one of the most foundational talks, and required watching for all programmers.
 
 The reason is because netbat hits on something bigger - something more
-fundemental than how to handle Unicode -- it's how to handle data which is
+fundamental than how to handle Unicode -- it's how to handle data which is
 relative.
 
 For those who want the TL;DR, the argument is as follows:
@@ -47,11 +47,11 @@ made. Your computer has to trust what you (yes, you!) entered into your web
 browser, your web browser has to pass that on over the network (most of the
 time without encoding information), to a server which reads that bytestream,
 and makes a wild guess at what it should be. That server might save it to a
-database, and interoplate it into an HTML template in a different encoding
+database, and interpolate it into an HTML template in a different encoding
 (called [Mojibake](https://simple.wikipedia.org/wiki/Mojibake)), resulting
 in a bad time for everyone involved.
 
-Everything's aweful, and the fact our computers can continue to display
+Everything's awful, and the fact our computers can continue to display
 text to us is a goddamn miracle. Never forget that.
 
 When it comes down to it, when I see a byte sitting on a page, I don't know
@@ -128,22 +128,22 @@ Just because it's Noon on New Years Eve in England doesn't mean it's not
 savings different days. Indian Standard Time is not even aligned on the hour
 to GMT (`+05:30`)!
 
-Test early, and test often. Memorize a few timezones, and challanage
+Test early, and test often. Memorize a few timezones, and challenge
 your assumptions when writing code that has to do with time. Don't use
 wall clocks to mean monotonic time. Remember there's a whole world out there,
 and we only deal with part of it.
 
 It's also worth remembering, as [Andrew Pendleton](https://twitter.com/andrewindc)
-pointed out to me, that it's posible that a datetime isn't even *unique* for a
+pointed out to me, that it's possible that a datetime isn't even *unique* for a
 place, since you can never know if `2016-11-06 01:00:00` in `America/New_York`
 (in the `tzdb`) is the first one, or second one. Storing `EST` or `EDT` along
-with your datetiem may help, though!
+with your datetime may help, though!
 
 
 Pitfalls
 --------
 
-Inproper handling of timezones can lead to some interesting things, and failing
+Improper handling of timezones can lead to some interesting things, and failing
 to be explicit (or at least, very rigid) in what you expect will lead to an
 unholy class of bugs we've all come to hate. At best, you have confused
 users doing math, at worst, someone misses a critical event, or our
@@ -165,6 +165,6 @@ Final Thoughts
 --------------
 
 Overall, my main point is although most modern developers know how to deal
-with Uniode pain, I think there is a more general lesson to learn -- namely,
+with Unicode pain, I think there is a more general lesson to learn -- namely,
 you should always know what data you have, and always remember what it is.
 Understand assumptions as early as you can, and always store them with the data.
