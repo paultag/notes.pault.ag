@@ -13,7 +13,13 @@ touted [nedbat's](http://nedbatchelder.com) talk
 [Pragmatic Unicode, or, How do I stop the pain?](http://nedbatchelder.com/text/unipain.html)
 as one of the most foundational talks, and required watching for all programmers.
 
-For those who want the TL;DR, the talk outlines the following Facts of Life:
+The reason is because netbat hits on something bigger - something more
+fundemental than how to handle Unicode -- it's how to handle data which is
+relative.
+
+For those who want the TL;DR, the argument is as follows:
+
+Facts of Life:
 
  1. Computers work with Bytes. Bytes go in, Bytes go out.
  2. The world needs more than 256 symbols.
@@ -21,14 +27,14 @@ For those who want the TL;DR, the talk outlines the following Facts of Life:
  4. You cannot infer the encoding of bytes.
  5. Declared encodings can be Wrong
 
-Now, to deal with these facts, Ned gives the following protips:
+Now, to fix it, the following protips:
 
  1. [Unicode sandwich](http://nedbatchelder.com/text/unipain/unipain.html#35)
  2. Know what you have
  3. TEST
 
-Chaosmonkey
------------
+Relative Data
+-------------
 
 I've started to think more about why we do the things we do when we write
 code, and one thing that continues to be a source of morbid schadenfreude
@@ -67,21 +73,20 @@ Timezones
 
 Just like Unicode, this is a word that can put your friendly neighborhood
 programmer into a series of profanity laden tirades. Go find one in the wild,
-and ask them about what they think about timezone handling in their code.
+and ask them about what they think about timezone handling bugs they've seen.
 I'll wait. Go ahead.
 
-Rants are funny things. They're fun to watch. Hilarious to give. Sometimes just
-getting it all out can help. They can tell you a lot about the true nature of
-problems. It's funny to consider the isomorphic nature of Unicode rants and
-Timezone rants.
+Rants are funny things. They're fun to watch. Hilarious to give. Sometimes
+just getting it all out can help. They can tell you a lot about the true
+nature of problems.
+
+It's funny to consider the isomorphic nature of Unicode rants and Timezone
+rants.
 
 *I don't think this is an accident.*
 
-I think we can take Ned's framework for dealing with Unicode, and morph it
-into something usable for timezones.
-
-Pro Tip #1: U̶n̶i̶c̶o̶d̶e̶ timezone Sandwich
--------------------------------------
+U̶n̶i̶c̶o̶d̶e̶ timezone Sandwich
+-------------------------
 
 Ned's Unicode Sandwich applies -- As early as we can, in the lowest level
 we can (reading from the database, filesystem, wherever!), all datetimes
@@ -94,70 +99,45 @@ process any datetimes until you're sure they're in the right timezone.
 
 This lets the delicious inside of your datetime sandwich handle timezones
 with grace, and finally, as late as you can, turn it back into bytes
-(if at all!).
-
-Most of the time, you don't even have to encode it back to an unqualified
-datetime, since modern databases can store datetimes *with* their correct
-timezone, without having to turn it into a POSIX Datetime in UTC, crudely
-shoved into an int field. Just because no one at your startup was born before
-UNIX Epoch doesn't mean they don't exist. Maybe that's why Facebook seemingly
-moved their birthday ints back to 1990 (judging by a bug I saw the other day).
+(if at all!). Treat locations as `tzdb` entries, and qualify datetime
+objects into their absolute timezone (`EST`, `EDT`, `PST`, `PDT`)
 
 It's not until you want to show the datetime to the user again should you
 consider how to re-encode your datetime to bytes. You should think about
 what flavor of bytes, what encoding -- what timezone -- should I be
 encoding into?
 
+It's also worth remembering, as [Andrew Pendleton](https://twitter.com/andrewindc)
+pointed out to me, that it's posible that a datetime isn't even *unique* for a
+place, since you can never know if `2016-11-06 01:00:00` in `America/New_York`
+(in the `tzdb`) is the first one, or second one. Storing `EST` or `EDT` along
+with your datetiem may help, though!
 
-Pro Tip #2: Know what you have
-------------------------------
-
-Is it a few integers that you can claim are a date and a time, or is it a
-real, timezone qualified datetime? What timezone?
-
-Always know what bytes you have. Always know what the user *intends* for it
-to be. Get information. Any information. Crave information about where
-it came from. Remember, encoding is out of band. You need to deduce the
-timezone.
-
-Remember, you can't just give up and default to a constant. That will fail.
-Don't give up, remember the world uses timezones, and that just because
-it's Tuesday doesn't mean it's not Wednesday in another. Or Monday.
-
-Trying to avoid dealing with this will result in the same thing as when you
-fail to deal with Unicode - systems will break on input, and they'll break
-in hard to fix places. You'll start to play whack-a-mole with `encode` and
-`decode`, trying to get the right timezone gymastics in place.
-
-
-Pro Tip #3: TEST
------------------
-
-Just like Unicode, testing that your code works with datetimes is important.
-Every time I think about how to go about doing this, I think about that
-one time that [mjg59](http://mjg59.dreamwidth.org/) couldn't book a flight
-starting Tuesday from AKL, landing in HNL on Monday night, because
-United couldn't book the last leg to SFO. Do you ever assume dates only go
-forward as time goes on? Remember timezones.
-
-Construct test data, make sure someone in New Zealand's
-[+13:45](https://en.wikipedia.org/wiki/UTC%2B13:45) can correctly talk with
-their friends in
-Baker Island's [-12:00](https://en.wikipedia.org/wiki/UTC%E2%88%9212:00),
-and that the events sort right.
-
-Just because it's Noon on New Years Eve in England doesn't mean it's not
-1 AM the next year in New Zealand. Places a few miles apart may go on Daylight
-savings different days. Indian Standard Time is not even aligned on the hour
-to GMT (`+05:30`)!
-
-Test early, and test often. Memorize a few timezones, and challanage
-your assumptions when writing code that has to do with time. Don't use
-wall clocks to mean monotonic time. Remember there's a whole world out there,
-and we only deal with part of it.
-
-Epilogue
+Pitfalls
 --------
 
-Fact of Life #6: Never forget Indiana has 11 timezones. You can never trust
-that someone from Indiana isn't giving you EBCDIC.
+Inproper handling of timezones can lead to some interesting things, and failing
+to be explicit (or at least, very rigid) in what you expect will lead to an
+unholy class of bugs we've all come to hate. At best, you have confused
+users doing math, at worst, someone misses a critical event, or our
+security code fails.
+
+I recently found what I regard to be a pretty bad
+[bug in apt](https://bugs.debian.org/819697) (which David has prepared a
+[fix](https://anonscm.debian.org/cgit/apt/apt.git/diff/?id=9febc2b)
+for and is pending upload, yay! Thank you!), which boiled down to documentation
+and code expecting datetimes in a timezone, but *accepting any timezone*, and
+*silently* treating it as `UTC`.
+
+The solution is to hard-fail, which is an interesting choice to me (as a vocal
+fan of timezone aware code), but at the least it won't fail by
+misunderstanding what the server is trying to communicate, and I do understand
+and empathize with the situation the `apt` maintainers are in.
+
+Final Thoughts
+--------------
+
+Overall, my main point is although most modern developers know how to deal
+with Uniode pain, I think there is a more general lesson to learn -- namely,
+you should always know what data you have, and always remember what it is.
+Understand assumptions as early as you can, and always store them with the data.

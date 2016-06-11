@@ -25,7 +25,6 @@ LINKS = (('Blog', 'http://blog.pault.ag'),)
 
 SOCIAL = (('twitter', 'http://twitter.com/paultag'),
           ('google-plus', 'http://gplus.to/paultag'),
-          ('music', 'http://rdio.com/people/paultag'),
           ('github', 'http://git.io/paultag'),)
 
 # global metadata to all the contents
