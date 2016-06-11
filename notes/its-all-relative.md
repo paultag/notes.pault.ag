@@ -107,11 +107,38 @@ consider how to re-encode your datetime to bytes. You should think about
 what flavor of bytes, what encoding -- what timezone -- should I be
 encoding into?
 
+TEST
+-----
+
+Just like Unicode, testing that your code works with datetimes is important.
+Every time I think about how to go about doing this, I think about that
+one time that [mjg59](http://mjg59.dreamwidth.org/) couldn't book a flight
+starting Tuesday from AKL, landing in HNL on Monday night, because
+United couldn't book the last leg to SFO. Do you ever assume dates only go
+forward as time goes on? Remember timezones.
+
+Construct test data, make sure someone in New Zealand's
+[+13:45](https://en.wikipedia.org/wiki/UTC%2B13:45) can correctly talk with
+their friends in
+Baker Island's [-12:00](https://en.wikipedia.org/wiki/UTC%E2%88%9212:00),
+and that the events sort right.
+
+Just because it's Noon on New Years Eve in England doesn't mean it's not
+1 AM the next year in New Zealand. Places a few miles apart may go on Daylight
+savings different days. Indian Standard Time is not even aligned on the hour
+to GMT (`+05:30`)!
+
+Test early, and test often. Memorize a few timezones, and challanage
+your assumptions when writing code that has to do with time. Don't use
+wall clocks to mean monotonic time. Remember there's a whole world out there,
+and we only deal with part of it.
+
 It's also worth remembering, as [Andrew Pendleton](https://twitter.com/andrewindc)
 pointed out to me, that it's posible that a datetime isn't even *unique* for a
 place, since you can never know if `2016-11-06 01:00:00` in `America/New_York`
 (in the `tzdb`) is the first one, or second one. Storing `EST` or `EDT` along
 with your datetiem may help, though!
+
 
 Pitfalls
 --------
