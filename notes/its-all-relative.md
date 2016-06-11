@@ -1,5 +1,5 @@
 Title: It's all relative
-Date: 2016-03-21 23:22
+Date: 2016-06-10 23:45
 Tags: datetime, timezones, unicode, python
 Category: rants
 Slug: its-all-relative
