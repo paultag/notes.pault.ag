@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 AUTHOR = 'Paul Tagliamonte'
 SITENAME = "Ceci n'est pas une -EPIPE"
 SITETAG = "Life as a F/OSS Zealot, Debianite, Pythonista and Lisper"
-SITEURL = 'http://notes.pault.ag'
+SITEURL = 'https://notes.pault.ag'
 SITEURL = 'file:///home/paultag/dev/local/notes.pault.ag/output/'
 TIMEZONE = "America/New_York"
 THEME = "epipe"
@@ -23,7 +23,7 @@ MARKUP = ('rst', 'md', 'html')
 
 LINKS = (('Blog', 'http://blog.pault.ag'),)
 
-SOCIAL = (('twitter', 'http://twitter.com/paultag'),
+SOCIAL = (('twitter', 'https://twitter.com/paultag'),
           ('google-plus', 'http://gplus.to/paultag'),
           ('github', 'http://git.io/paultag'),)
 
