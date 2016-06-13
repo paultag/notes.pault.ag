@@ -30,12 +30,12 @@ devicemapper backend can be quite a pain.
 I tried loading in [btrfs](http://en.wikipedia.org/wiki/Btrfs) support, and
 using that to host the Docker instance backed with btrfs, but it was throwing
 errors as well. Stuck with unstable backends, I wanted to use the
-[aufs](http://en.wikipedia.org/wiki/Aufs) backend, which, dispite problems in
+[aufs](http://en.wikipedia.org/wiki/Aufs) backend, which, despite problems in
 aufs internally, is quite stable with Docker (and in general).
 
 I started to run through the [Linode Library's guide on PV-Grub](https://library.linode.com/custom-instances/pv-grub-howto),
 but that resulted in a cryptic error with xen not understanding the compression
-of the kernel. I checked for recent changes to the compresson, and lo, the
+of the kernel. I checked for recent changes to the compression, and lo, the
 Debian kernel has been switched to use xz compression in sid. Awesome news,
 really. XZ compression is awesome, and I've been super impressed with how
 universally we've adopted it in Debian. Keep it up!  However, it appears only
@@ -43,7 +43,7 @@ a newer pv-grub than the Linode hosts have installed will fix this.
 
 After contacting the (ever friendly) Linode support, they were unable to give
 me a timeline on adding xz support, which would entail upgrading pv-grub. It
-was quite disapointing news, to be honest. Workarounds were suggested,
+was quite disappointing news, to be honest. Workarounds were suggested,
 but I'm not quite happy with them as proper solutions.
 
 After asking in `#debian-kernel`, [waldi](http://bblank.thinkmo.de/blog) was

@@ -16,7 +16,7 @@ will have no doubt explored Hy's thriving
 [try-hy](http://try-hy.appspot.com/), or even installed it locally by
 [pip installing it](https://pypi.python.org/pypi/hy). I was lucky enough to
 be able to attend PyCon on behalf of [Sunlight](http://sunlightfoundation.com/),
-with a solid contingint of my colleagues. We put together a writeup on the
+with a solid contingent of my colleagues. We put together a writeup on the
 [Sunlight blog](http://sunlightfoundation.com/blog/2014/04/18/sunlight-at-pycon-2014/)
 if anyone was interested in our favorite talks.
 

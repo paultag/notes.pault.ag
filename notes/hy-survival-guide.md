@@ -11,7 +11,7 @@ TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles.png
 One of my new favorite languages is a peppy little
 [lisp](http://en.wikipedia.org/wiki/Lisp) called
 [hy](http://hylang.org). I like it a lot since it's a result of a hilarious
-idea I had while talking with some coworkers over mexican food. Since I'm
+idea I had while talking with some coworkers over Mexican food. Since I'm
 the most experienced [Hypster](https://github.com/hylang?tab=members) on the
 planet, I figured I should write a survival guide. This will go a lot easier
 if you already know Lisp, but you can get away with quite a bit of Python.
@@ -60,7 +60,7 @@ Clojure-isms
 
 Hy has quite a few Clojure-isms that I rather prefer, such as the threading
 macro, and dot-notation (for accessing methods on an Object), which I would
-rather see used throught the hylands.
+rather see used throughout the hylands.
 
     :::clojure
     ;; good:
@@ -181,7 +181,7 @@ correct syntax in places such as this is:
 Notice
 ======
 
-This guide is, above all, a *guide*. This is also only truely binding
+This guide is, above all, a *guide*. This is also only truly binding
 for working on Hy code internally. This post is also super subject to change
 in the future, whenever I can be bothered to ensure that we have more of the
 de facto rules written down.

@@ -173,7 +173,7 @@ Loofah
 Loofah is also another wrapper around Ricky, but for use manually. Loofah
 is able to sync down the apt `Sources` list, and place it in Mongo for fast
 queries. This than allows me to manually run rebuilds on any Source package
-that fits a set of critera (written in the form of a Mongo query), which get
+that fits a set of criteria (written in the form of a Mongo query), which get
 pulled and uploaded by `Ricky`.
 
 An example script to rebuild any packages that `Build-Depend` on
