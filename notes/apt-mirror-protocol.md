@@ -8,7 +8,7 @@ TwitterSite: @paultag
 TwitterCreator: @paultag
 
 It's sometimes helpful to keep your machines using a list of apt archives
-to use, rather then a single mirror, because redudency is good. Rather then
+to use, rather then a single mirror, because redundancy is good. Rather then
 using (the great) services like `http.debian.net` or `ftp.us.debian.org`,
 you can set your own mirror lists using apt's `mirror://` protocol.
 
