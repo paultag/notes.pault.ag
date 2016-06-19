@@ -105,7 +105,7 @@ Version 0.6.7+dfsg1-2 was uploaded on 2014-01-08 19:14:02 -0500 EST
 Version 0.6.7+dfsg1-1 was uploaded on 2014-01-07 21:06:10 -0500 EST
 ```
 
-## Control
+## control
 
 Next is one of the most complex, and one of the oldest parts of `go-debian`,
 which is the [control file parser](https://godoc.org/pault.ag/go/debian/control)
@@ -234,3 +234,156 @@ The DM أحمد المحمودي <aelmahmoudy@sabily.org> is allowed to upload:
 ...
 ```
 
+## deb
+
+Next up, we've got the `deb` module. This contains code to handle reading
+Debian 2.0 `.deb` files. It contains a wrapper that will parse the control
+member, and provide the data member through the
+[archive/tar](https://godoc.org/archive/tar) interface.
+
+Here's an example of how to read a `.deb` file, access some metadata, and
+iterate over the `tar` archive, and print the filenames of each of the
+entries.
+
+```go
+func main() {
+	path := "/tmp/fluxbox_1.3.5-2+b1_amd64.deb"
+	fd, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer fd.Close()
+
+	debFile, err := deb.Load(fd, path)
+	if err != nil {
+		panic(err)
+	}
+
+	version := debFile.Control.Version
+	fmt.Printf(
+		"Epoch: %d, Version: %s, Revision: %s\n",
+		version.Epoch, version.Version, version.Revision,
+	)
+
+	for {
+		hdr, err := debFile.Data.Next()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("  -> %s\n", hdr.Name)
+	}
+}
+```
+
+Boringly, the output looks like:
+
+```
+Epoch: 0, Version: 1.3.5, Revision: 2+b1
+  -> ./
+  -> ./etc/
+  -> ./etc/menu-methods/
+  -> ./etc/menu-methods/fluxbox
+  -> ./etc/X11/
+  -> ./etc/X11/fluxbox/
+  -> ./etc/X11/fluxbox/window.menu
+  -> ./etc/X11/fluxbox/fluxbox.menu-user
+  -> ./etc/X11/fluxbox/keys
+  -> ./etc/X11/fluxbox/init
+  -> ./etc/X11/fluxbox/system.fluxbox-menu
+  -> ./etc/X11/fluxbox/overlay
+  -> ./etc/X11/fluxbox/apps
+  -> ./usr/
+  -> ./usr/share/
+  -> ./usr/share/man/
+  -> ./usr/share/man/man5/
+  -> ./usr/share/man/man5/fluxbox-style.5.gz
+  -> ./usr/share/man/man5/fluxbox-menu.5.gz
+  -> ./usr/share/man/man5/fluxbox-apps.5.gz
+  -> ./usr/share/man/man5/fluxbox-keys.5.gz
+  -> ./usr/share/man/man1/
+  -> ./usr/share/man/man1/startfluxbox.1.gz
+...
+```
+
+## dependency
+
+The `dependency` package provides an interface to parse and compute
+dependencies. This package is a bit odd in that, well, there's no other
+library that does this. The issue is that there are actually two different
+parsers that compute our Dependency lines, one in Perl (as part of `dpkg-dev`)
+and another in C (in `dpkg`).
+
+<aside class="left">
+I have yet to track it down, but it's shockly likely that `apt` has another
+in `C++`, and maybe another in `aptitude`. I don't know this for a fact, so
+I'll assume nothing
+</aside>
+
+To date, this has resulted in me filing
+[three](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=816473)
+[different](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=784808)
+[bugs](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=784806).
+I also found a broken package in the
+[archive](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=816741),
+which actually resulted in another bug being (totally accidentally)
+[already fixed](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815478).
+I hope to continue to run the archive through my parser in hopes of finding
+more bugs! This package is a bit complex, but it basically just returns what
+amounts to be an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+for our Dependency lines. I'm positive there are bugs, so file them!
+
+```go
+func main() {
+	dep, err := dependency.Parse("foo | bar, baz, foobar [amd64] | bazfoo [!sparc], fnord:armhf [gnu-linux-sparc]")
+	if err != nil {
+		panic(err)
+	}
+
+	anySparc, err := dependency.ParseArch("sparc")
+	if err != nil {
+		panic(err)
+	}
+
+	for _, possi := range dep.GetPossibilities(*anySparc) {
+		fmt.Printf("%s (%s)\n", possi.Name, possi.Arch)
+	}
+}
+```
+
+Gives the output:
+
+```
+foo (<nil>)
+baz (<nil>)
+fnord (armhf)
+```
+
+## version
+
+Right off the bat, I'd like to thank
+[Michael Stapelberg](https://twitter.com/zekjur) for letting me graft this
+out of [dcs](https://github.com/debian/dcs) and into the `go-debian` package.
+This was nearly entirely his work (with a one or two line function I added
+later), and was amazingly helpful to have. Thank you!
+
+This module implements Debian version comparisons and parsing, allowing for
+sorting in lists, checking to see if it's native or not, and letting the
+programmer to implement smart(er!) logic based on upstream (or Debian)
+version numbers.
+
+This module is extremly easy to use and very straightforward, and not worth
+writing an example for.
+
+# Final thoughts
+
+This is more of a "Yeah, OK, this has been useful enough to me at this point
+that I'm going to support this" rather than a "It's stable!" or even
+"It's alive!" post. Hopefully folks can report bugs and help iterate on
+this module until we have some really clean building blocks to build
+solid higher level systems on top of. Being able to have multiple libraries
+interoperate by relying on `go-debian` will be a massive ease.
+I'm in need of more documentation, and to finalize some parts of the older
+sub package APIs, but I'm hoping to be at a "1.0" real soon now.
