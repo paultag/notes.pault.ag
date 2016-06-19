@@ -31,7 +31,7 @@ After a while, I wound up hitting the usual blockers, and started to build up
 abstractions. They became pretty darn useful, so, this blog post is announcing
 (a still incomplete, year old and perhaps API changing) Debian package for Go.
 The Go importable name is `pault.ag/go/debian`. This contains a lot of utilities
-for dealing with Debian packages, and will become a edited down "toolbelt"
+for dealing with Debian packages, and will become an edited down "toolbelt"
 for working with or on Debian packages.
 
 # Module Overview
