@@ -15,7 +15,7 @@ neat use cases, suited to particular problems, and used in the right place,
 you can see some clear massive wins.
 
 <aside class="left">
-Some of the things Go is great at: Writing a server. Deaing with asynchronous
+Some of the things Go is great at: Writing a server. Dealing with asynchronous
 communication. Backend and front-end in the same binary. Fast and memory safe.
 </aside>
 
@@ -111,7 +111,7 @@ Next is one of the most complex, and one of the oldest parts of `go-debian`,
 which is the [control file parser](https://godoc.org/pault.ag/go/debian/control)
 (otherwise sometimes known as `deb822`). This module was inspired by the way
 that the `json` module works in Go, allowing for files to be defined in code
-with a `struct`. This tends to be a bit more declaritive, but also winds up
+with a `struct`. This tends to be a bit more declarative, but also winds up
 putting logic into struct tags, which can be a nasty anti-pattern if used too
 much.
 
@@ -317,7 +317,7 @@ parsers that compute our Dependency lines, one in Perl (as part of `dpkg-dev`)
 and another in C (in `dpkg`).
 
 <aside class="left">
-I have yet to track it down, but it's shockly likely that `apt` has another
+I have yet to track it down, but it's shockingly likely that `apt` has another
 in `C++`, and maybe another in `aptitude`. I don't know this for a fact, so
 I'll assume nothing
 </aside>
@@ -374,7 +374,7 @@ sorting in lists, checking to see if it's native or not, and letting the
 programmer to implement smart(er!) logic based on upstream (or Debian)
 version numbers.
 
-This module is extremly easy to use and very straightforward, and not worth
+This module is extremely easy to use and very straightforward, and not worth
 writing an example for.
 
 # Final thoughts
