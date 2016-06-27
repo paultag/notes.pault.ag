@@ -1,8 +1,8 @@
-Title: Go Debian!
+Title: Hello, Sense!
 Date: 2016-06-26 21:42
 Tags: python, sense, hello.is
 Category: hacks
-Slug: go-debian
+Slug: hello-sense
 Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
