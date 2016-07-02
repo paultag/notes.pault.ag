@@ -12,7 +12,7 @@ prod-render:
 
 static:
 	mkdir output/static -p
-	cp static/* output/static
+	cp -R static/* output/static
 
 upload: prod-render static
 	cd output; \
