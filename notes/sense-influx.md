@@ -1,4 +1,4 @@
-Title: Hello, Sense!
+Title: Hello, InfluxDB
 Date: 2016-07-02 13:13
 Tags: python, influxdb, hello, sense
 Category: hacks
