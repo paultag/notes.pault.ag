@@ -29,10 +29,10 @@ wildly encouraged! Additional data ideas, cleanup or more hand collected data
 would be wonderful!
 
 In the meantime, use-cases for using this API range from language package
-managers pulling OSI approval of a licence programatically to using a license
-identifier as defined in one dataset (SPDX, for exampele), and using that
-to find the identifer as it exists in another system (DEP5, Wikipedia,
+managers pulling OSI approval of a licence programmatically to using a license
+identifier as defined in one dataset (SPDX, for example), and using that
+to find the identifier as it exists in another system (DEP5, Wikipedia,
 TL;DR Legal).
 
-Patches are hugly welcome, as are bug reports or ideas! I'd also love more
+Patches are hugely welcome, as are bug reports or ideas! I'd also love more
 API wrappers for other languages!
