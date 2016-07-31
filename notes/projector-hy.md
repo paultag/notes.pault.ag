@@ -6,7 +6,7 @@ Slug: hacking-a-projector-in-hy
 Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
-TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles.png
+TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles-transparent-small.png
 
 About a year ago, I bought a Projector after I finally admitted that I could
 actually use a TV in my apartment. I settled on buying a

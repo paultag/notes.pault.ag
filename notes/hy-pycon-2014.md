@@ -6,7 +6,7 @@ Slug: hy-pycon-2014
 Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
-TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles.png
+TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles-transparent-small.png
 
 
 I gave a talk this year at [PyCon 2014](https://us.pycon.org/2014/), about one

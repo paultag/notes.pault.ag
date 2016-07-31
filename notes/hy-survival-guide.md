@@ -6,7 +6,7 @@ Slug: hy-survival-guide
 Author: Paul Tagliamonte
 TwitterSite: @paultag
 TwitterCreator: @paultag
-TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles.png
+TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles-transparent-small.png
 
 One of my new favorite languages is a peppy little
 [lisp](http://en.wikipedia.org/wiki/Lisp) called
