@@ -9,7 +9,7 @@ TwitterCreator: @paultag
 TwitterImage: http://docs.hylang.org/en/latest/_images/cuddles.png
 
 About a year ago, I bought a Projector after I finally admitted that I could
-actually use a TV in my appartment. I settled on buying a
+actually use a TV in my apartment. I settled on buying a
 [ViewSonic PJD5132](http://ap.viewsonic.com/il/products/projectors/PJD5132.php).
 It was a really great value, and has been nothing short of a delight to own.
 
