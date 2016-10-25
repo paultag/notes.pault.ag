@@ -24,8 +24,8 @@ MARKUP = ('rst', 'md', 'html')
 LINKS = (('Blog', 'http://blog.pault.ag'),)
 
 SOCIAL = (('twitter', 'https://twitter.com/paultag'),
-          ('google-plus', 'http://gplus.to/paultag'),
-          ('github', 'http://git.io/paultag'),)
+          ('google-plus', 'https://plus.google.com/+PaulTagliamonte'),
+          ('github', 'https://git.io/paultag'),)
 
 # global metadata to all the contents
 DEFAULT_METADATA = ()  #(('yeah', 'it is'),)
