@@ -61,7 +61,10 @@ and random noise is not self-similar (meaning: it doesn't repeat itself), we
 can cross-correlate our samples to determine the relative offsets between the
 radios.
 
-(Aside: GPIO Pin #1 is also BiasT)
+<aside class="left">
+There's a KerberosSDR specific rtl-sdr library, but I used the stock rtl-sdr
+library. <code>rtlsdr_set_bias_tee</code> will toggle GPIO #1 under the hood.
+</aside>
 
 Since each radio is its own rtl-sdr device, the first step is to start recieving
 on each SDR independently. For my setup, each SDR's stream will feed into a
@@ -77,7 +80,10 @@ some math I don't understand. However, just because I don't entirely understand
 it doesn't mean I can't use it, as evidenced by my frequent use of
 magnets, or more distrubingly, airplanes.
 
-(How are airplanes so heavy and fly?)
+<aside class="right">
+Seriously though, if I saw and airplane without ever seeing one fly and someone
+told me they'd fly, I'd not believe them.
+</aside>
 
 If we preform a FFT to move our IQ data into the frequency domain, we can
 then iterate over each buffer, multiplying the complex conjugate of that
@@ -95,28 +101,36 @@ by that many samples, and if the offset is negative the Nth buffer is behind the
 we can read from the 0th stream until we are aligned with the "last" SDR to
 start, and then read from each other stream to match the 0th stream.
 
-(TODO(PAULTAG): positive negative how that works, fftshift)
+<aside class="left">
+The output of the cross-correlation are time offsets. "positive" and
+"negative" are represented by indexes in the first half or second
+half of the values. This is similar to how FFTs are represented.
+</aside>
 
-From here on out, I have 4 streams of IQ samples that all represent the same
-instant, so long as I always read the same exact number of IQ samples from
-each stream. From here, we can do things like direction finding or
-beamforming to avoid picking up noise from unwanted directions.
+From here on out, we have 4 streams of IQ samples where each sample that's read
+from each stream at the same time represent the same instant in time, so long
+as we always read the same exact number of IQ samples from each stream.
+From here, we can do things like direction finding or beamforming to avoid
+picking up noise from unwanted directions. This is a wildly complicated thing
+to do with other hardware, but the KerberosSDR makes it really easy by using
+commonly available hardware, and by integrating the on-device random number
+generator to preform synchronization.
 
 Sample Rate
 -----------
 
-One of the things I like least about the rtl-sdrs, is that max sample rate is
-very low. Generally speaking, the amount of bandwidth that can be observed is
-a function of the number of samples per second the hardware is capturing. To
-see more spectrum, you need more readings -- which makes sense when you think
-about it, since that's the only way to detect higher frequency components.
-With the rtl-sdr, as the sample rate increases, there's a bit of corruption to
-work through, eventually rendering the signal unsable. I tend to not like pushing
-my rtl-sdr beyond 2 Megasamples per second. It can be quite frustrating
-to have to such a narrow view of the spectum. It feels like you're watching
-the spectrum through a straw when you compare it to a high end hobby SDR such
-as the [PlutoSDR](https://wiki.analog.com/university/tools/pluto) or a full on
-professional SDR like the
+One of the things I like least about the rtl-sdrs generally, is that max sample
+rate is very low. Generally speaking, the amount of bandwidth that can be
+observed is a function of the number of samples per second the hardware is
+capturing. To see more spectrum, you need more readings -- which makes sense
+when you think about it, since that's the only way to detect higher frequency
+components.  With the rtl-sdr, as the sample rate increases, there's a bit of
+corruption to work through, eventually rendering the signal unsable. I tend to
+not like pushing my rtl-sdr beyond 2 Megasamples per second. It can be quite
+frustrating to have to such a narrow view of the spectum. It feels like you're
+watching the spectrum through a straw when you compare it to a high end hobby
+SDR such as the [PlutoSDR](https://wiki.analog.com/university/tools/pluto) or a
+full on professional SDR like the
 [Ettus](https://www.ettus.com/product-categories/usrp-bus-series/) series.
 
 But wait! The KerberosSDR has 4 SDRs! Why don't we just tune each to adjacent
@@ -126,11 +140,20 @@ Given that we know the bandwidth observed by each SDR, and we have samples in
 perfect(ish) alignment, why don't we just stick all the output samples that
 come out of the SDRs together and use it as one large SDR?
 
-It should be as straightforward as tuning each SDR offset by the bandwidth
-amount (in our case, also the Samples per Second), taking a number of samples,
-preforming an FFT to move to the frequency domain, aligning all the frequency
-readings into a single large buffer 4 times the size of each SDR's buffer,
-and preforming an IFFT, creating an IQ stream at 4 times the sample rate of
-the input data, with 4 times the bandwidth.
+Since we know the bandwidth each radio can observe (in my case, 1.8 MHz),
+we can preform the alignment routine above and then tune each radio to 4
+different frequencies, 1.8MHz apart. Since we can't easily sitch the samples
+together in the time-domain, we're going to need to preform some FFTs and
+operate in the frequency domain, and rely on the IFFT to fold our data back
+into a time series. Most FFT libraries will return values in a format that
+is a bit easier to program with, where the positive frequency bins come first,
+and halfway through, it switches to the negitive ones. Given that we want to
+combine our frequency ranges, we're going to need to shift the FFT values, since
+the "0" frequency has moved, and we want our frequency range to go from the
+negative values, through zero to the positive ones. We then have to either
+preform another fft shift, or if we have an even number of devices, use the
+copy function to write the data in an already shifted order. After we preform
+the IFFT, we wind up with an IQ stream at 4 times the sample rate of the input
+data, with 4 times the bandwidth.
 
 ![Waterfall display showing 7.2 MHz of spectrum](../static/posts/kerberos-rtl-sdr-broadband/gqrx.png)
