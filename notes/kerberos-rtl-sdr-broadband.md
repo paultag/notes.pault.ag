@@ -19,6 +19,12 @@ and work that causes me to question basic things about myself -- such as my
 competence or capability as an engineer -- but it's been some of the most
 rewarding in recent memory as I work through each hurdle.
 
+I owe a deep debt of gratitude to those who have helped me along my way,
+but most especially Raf, Tom and Ben. They've helped me work through the parts
+that I've been most frustrated by, sent me piles of helpful resources, and
+taken active steps to introduce me to the wider community, allowing me to
+passively learn as others share their work. Thank you all.
+
 It's about as good of a time as any to take a step back, and to write a bit
 about what i've learned, and a hack that I've implemented for sport. This is
 the first in a series of posts about the last year, and a bit about the code
@@ -54,7 +60,7 @@ GPIO Pin #1, the KerberosSDR will switch from Antenna input to a random number
 generator, returning random noise to the software.
 
 <aside class="left">
-There's a KerberosSDR specific rtl-sdr library, but I used the stock rtl-sdr
+There's a KerberosSDR rtl-sdr library fork, but I used the stock rtl-sdr
 library. <code>rtlsdr_set_bias_tee</code> will toggle GPIO #1 under the hood.
 </aside>
 
@@ -99,7 +105,7 @@ match the now aligned 0th stream.
 
 ![](../static/posts/kerberos-rtl-sdr-broadband/5-read-to-align.png)
 
-<aside class="left">
+<aside class="right">
 The output of the cross-correlation are time offsets. "positive" and
 "negative" are represented by indexes in the first half or second
 half of the values. This is similar to how FFTs are represented.
