@@ -61,6 +61,8 @@ and random noise is not self-similar (meaning: it doesn't repeat itself), we
 can cross-correlate our samples to determine the relative offsets between the
 radios.
 
+(Aside: GPIO Pin #1 is also BiasT)
+
 Since each radio is its own rtl-sdr device, the first step is to start recieving
 on each SDR independently. For my setup, each SDR's stream will feed into a
 sample buffer, where samples can be read out independently of the block of
@@ -74,6 +76,8 @@ well the signals line up), or we can do this in the frequency domain using
 some math I don't understand. However, just because I don't entirely understand
 it doesn't mean I can't use it, as evidenced by my frequent use of
 magnets, or more distrubingly, airplanes.
+
+(How are airplanes so heavy and fly?)
 
 If we preform a FFT to move our IQ data into the frequency domain, we can
 then iterate over each buffer, multiplying the complex conjugate of that
@@ -129,5 +133,4 @@ readings into a single large buffer 4 times the size of each SDR's buffer,
 and preforming an IFFT, creating an IQ stream at 4 times the sample rate of
 the input data, with 4 times the bandwidth.
 
-![](../static/posts/kerberos-rtl-sdr-broadband/gqrx.png)
-
+![Waterfall display showing 7.2 MHz of spectrum](../static/posts/kerberos-rtl-sdr-broadband/gqrx.png)
