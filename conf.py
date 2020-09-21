@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Paul Tagliamonte'
 SITENAME = "Ceci n'est pas une -EPIPE"
-SITETAG = "Life as a F/OSS Zealot, Debianite, Pythonista and Lisper"
+SITETAG = "thoughts from a purveyor of fine bike sheds"
 SITEURL = 'https://notes.pault.ag'
 SITEURL = 'file:///home/paultag/dev/local/notes.pault.ag/output/'
 TIMEZONE = "America/New_York"
@@ -24,8 +24,7 @@ MARKUP = ('rst', 'md', 'html')
 LINKS = (('Blog', 'http://blog.pault.ag'),)
 
 SOCIAL = (('twitter', 'https://twitter.com/paultag'),
-          ('google-plus', 'https://plus.google.com/+PaulTagliamonte'),
-          ('github', 'https://git.io/paultag'),)
+          ('github', 'https://github.com/paultag'),)
 
 # global metadata to all the contents
 DEFAULT_METADATA = ()  #(('yeah', 'it is'),)
